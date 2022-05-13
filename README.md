@@ -41,141 +41,41 @@ These instructions will get you a copy of the project up and running on your loc
 ### Clone the repository
 
 #### With Git
+
 ```shell
 git clone https://github.com/solana-labs/solana-pay.git
 ```
 
 #### With Github CLI
+
 ```shell
 gh repo clone solana-labs/solana-pay
 ```
 
 ### Install dependencies
+
 ```shell
 cd solana-pay/point-of-sale
 yarn install
 ```
 
 ### Start the local dev server
+
 ```shell
 yarn dev
 ```
 
 ### In a separate terminal, run a local SSL proxy
+
 ```shell
 yarn proxy
 ```
 
 ### Open the point of sale app
+
 ```shell
 open "https://localhost:3001?recipient=Your+Merchant+Address&label=Your+Store+Name"
 ```
-
-You may need to accept a locally signed SSL certificate to open the page.
-
-## Accepting USDC on Mainnet
-Import the Mainnet endpoint, along with USDC's mint address and icon in the [`client/components/pages/App.tsx`](https://github.com/solana-labs/solana-pay/blob/master/point-of-sale/src/client/components/pages/App.tsx) file.
-```tsx
-import { MAINNET_ENDPOINT, MAINNET_USDC_MINT } from '../../utils/constants';
-import { USDCIcon } from '../images/USDCIcon';
-```
-
-In the same file, set the `endpoint` value in the `<ConnectionProvider>` to `MAINNET_ENDPOINT` and set the following values in the `<ConfigProvider>`:
-
-```tsx
-splToken={MAINNET_USDC_MINT}
-symbol="USDC"
-icon={<USDCIcon />}
-decimals={6}
-minDecimals={2}
-```
-
-**Make sure to use 6 decimals for USDC!**
-
-When you're done, it should look like this:
-
-```tsx
-<ConnectionProvider endpoint={MAINNET_ENDPOINT}>
-    <WalletProvider wallets={wallets} autoConnect={connectWallet}>
-        <WalletModalProvider>
-            <ConfigProvider
-                baseURL={baseURL}
-                link={link}
-                recipient={recipient}
-                label={label}
-                message={message}
-                splToken={MAINNET_USDC_MINT}
-                symbol="USDC"
-                icon={<USDCIcon />}
-                decimals={6}
-                minDecimals={2}
-                connectWallet={connectWallet}
-            >
-```
-
-## Using Transaction Requests
-
-[Transaction Requests](../SPEC.md#specification-transaction-request) are a new feature in Solana Pay.
-
-In the [`client/components/pages/App.tsx`](https://github.com/solana-labs/solana-pay/blob/master/point-of-sale/src/client/components/pages/App.tsx) file, toggle these lines:
-
-```tsx
-    // Toggle comments on these lines to use transaction requests instead of transfer requests.
-    const link = undefined;
-    // const link = useMemo(() => new URL(`${baseURL}/api/`), [baseURL]);
-```
-
-When you're done, it should look like this:
-
-```tsx
-    // Toggle comments on these lines to use transaction requests instead of transfer requests.
-    // const link = undefined;
-    const link = useMemo(() => new URL(`${baseURL}/api/`), [baseURL]);
-```
-
-The generated QR codes in the app should now use transaction requests. To see what's going on and customize it, check out the [`server/api/index.ts`](https://github.com/solana-labs/solana-pay/blob/master/point-of-sale/src/server/api/index.ts) file.
-
-## Deploying to Vercel
-
-You can deploy this point of sale app to Vercel with a few clicks.
-
-### 1. Fork the project
-
-Fork the Solana Pay repository
-
-### 2. Login to Vercel
-
-Login to Vercel and create a new project
-
-![](./setup/1.New.png)
-
-Import the forked repository from GitHub.
-
-![](./setup/2.Import.png)
-
-> If you're forked repository is not listed, you'll need to adjust your GitHub app permissions. Search for the and select the `Missing Git repository? Adjust GitHub App Permissions` option.
-
-### 3. Configure project
-
-Choose `point-of-sale` as the root directory:
-
-![](./setup/3.Root_directory.png)
-
-Configure the project as follows:
-
-![](./setup/4.Configuration.png)
-
-### Deploy project
-
-Once the deployment finishes, navigate to
-
-```
-https://<YOUR DEPLOYMENT URL>?recipient=<YOUR WALLET ADDRESS>&label=Your+Store+Name
-```
-
-## License
-
-The Solana Pay Point of Sale app is open source and available under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for more info.
 
 <!-- Links -->
 
